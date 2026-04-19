@@ -1,0 +1,12 @@
+{
+  "name": "math-drill",
+  "version": "1.0.0",
+  "description": "小学2年生向け三桁足し算ドリルゲーム",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

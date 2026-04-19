@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>さんすうドリル 🐱</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ① スタート画面 -->
+<div id="screen-start" class="screen active">
+  <h1 class="game-title">さんすう<br>ドリル</h1>
+  <div class="cat-wrap">
+    <div class="cat-emoji">😸</div>
+    <div class="bubble">いっしょに<br>れんしゅうしよう！</div>
+  </div>
+  <button class="btn-main" onclick="startGame()">スタート！</button>
+  <div class="history-box">
+    <div class="box-title">📋 きろく</div>
+    <div id="history-list"></div>
+  </div>
+</div>
+
+<!-- ② ゲーム画面 -->
+<div id="screen-game" class="screen">
+  <div class="game-top">
+    <div class="prog-wrap">
+      <div class="prog-bg"><div class="prog-fill" id="prog-bar"></div></div>
+      <span id="q-num">1 / 10</span>
+    </div>
+    <div class="timer" id="timer">0:00</div>
+  </div>
+
+  <!-- 計算問題 -->
+  <div class="math-problem" id="math-problem">
+    <div class="prob-wrap" id="prob-wrap">
+      <div class="prob-row" id="num1-cells"></div>
+      <div class="prob-row num2-row">
+        <div class="dc plus">+</div>
+        <div id="num2-cells" class="inline-cells"></div>
+      </div>
+      <div class="prob-line" id="prob-line"></div>
+      <!-- こたえのスロット (ドラッグターゲット) -->
+      <div class="answer-slots" id="answer-slots"></div>
+    </div>
+  </div>
+
+  <!-- 数字タイル -->
+  <div class="tiles-area">
+    <div class="tiles-hint">すうじを ひっぱって こたえを いれよう！</div>
+    <div class="tiles-row" id="tiles-row">
+      <div class="tile" data-digit="1">1</div>
+      <div class="tile" data-digit="2">2</div>
+      <div class="tile" data-digit="3">3</div>
+      <div class="tile" data-digit="4">4</div>
+      <div class="tile" data-digit="5">5</div>
+      <div class="tile" data-digit="6">6</div>
+      <div class="tile" data-digit="7">7</div>
+      <div class="tile" data-digit="8">8</div>
+      <div class="tile" data-digit="9">9</div>
+      <div class="tile" data-digit="0">0</div>
+    </div>
+  </div>
+
+  <div class="game-actions">
+    <button class="btn-sub" onclick="clearAllSlots()">クリア</button>
+    <button class="btn-main" id="submit-btn" onclick="submitAnswer()" disabled>こたえ！</button>
+  </div>
+</div>
+
+<!-- ③ けっか画面 -->
+<div id="screen-result" class="screen">
+  <h2 class="screen-title">けっか！</h2>
+  <div class="result-card">
+    <div class="score-big">
+      <span id="res-score">0</span><span class="score-unit"> / 10もん</span>
+    </div>
+    <div class="pct-big"><span id="res-pct">0</span>%</div>
+    <div class="time-row">⏱ <span id="res-time">0:00</span></div>
+  </div>
+  <div class="cat-wrap">
+    <div class="cat-emoji" id="res-cat">😺</div>
+    <div class="bubble" id="res-msg"></div>
+  </div>
+  <div class="btn-col">
+    <button class="btn-main" id="res-next-btn" onclick="goNext()">つぎへ ➡</button>
+    <button class="btn-sub" onclick="startGame()">もういちど</button>
+  </div>
+</div>
+
+<!-- ④ まちがいレビュー画面 -->
+<div id="screen-review" class="screen">
+  <h2 class="screen-title">まちがえた もんだい</h2>
+  <div class="rev-prog" id="rev-prog">1 / 1</div>
+  <div class="cat-wrap">
+    <div class="cat-emoji">🐱</div>
+    <div class="bubble" id="rev-msg"></div>
+  </div>
+  <div class="review-card">
+    <div class="prob-wrap" id="rev-prob-wrap">
+      <div class="prob-row" id="rev-n1"></div>
+      <div class="prob-row num2-row">
+        <div class="dc plus">+</div>
+        <div id="rev-n2" class="inline-cells"></div>
+      </div>
+      <div class="prob-line" id="rev-prob-line"></div>
+      <div class="ans-label ok-label">✅ ただしいこたえ</div>
+      <div class="prob-row" id="rev-correct"></div>
+      <div class="ans-label ng-label">❌ きみのこたえ</div>
+      <div class="prob-row" id="rev-user"></div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-sub" id="rev-prev" onclick="prevReview()">◀ まえへ</button>
+    <button class="btn-main" id="rev-next" onclick="nextReview()">つぎへ ▶</button>
+  </div>
+</div>
+
+<!-- ⑤ じこベスト画面 -->
+<div id="screen-best" class="screen">
+  <div class="cat-wrap">
+    <div class="cat-emoji celebrate" id="best-cat">🎉</div>
+    <div class="bubble large-bubble" id="best-msg"></div>
+  </div>
+  <div class="best-card" id="best-card"></div>
+  <div class="btn-col">
+    <button class="btn-main" onclick="startGame()">もういちど！</button>
+    <button class="btn-sub" onclick="goToStart()">スタートへ</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
